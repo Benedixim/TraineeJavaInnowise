@@ -1,0 +1,53 @@
+<div class="container" th:fragment = "filter-bar" >
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Одиннадцатый пример навигационной панели" _mstaria-label="492297" _msthash="110">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" _msttexthash="4279301" _msthash="111">Фильтры</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation" _msthidden="A" _mstaria-label="320099" _msthash="112">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample09">
+      <ul class="navbar-nav">
+        <form style="appearance: none;">
+          <div class="row">
+            <div class="col-md-5">
+              <input name="name" class="form-control" id="search-input" type="search" placeholder="Поиск по названию" aria-label="Поиск по названию" _mstplaceholder="74607" _msthash="120" _mstaria-label="74607">
+            </div>
+            <div class="col-md-2">
+              <input type="number"  name="f" step="0.1" min="0" max="9999999" id="slider-1" class="form-control">
+            </div>
+            <div class="col-md-2">
+              <input type="number"  name="s" step="0.1" min="0" max="9999999" id="slider-2" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <div class="d-flex justify-content-end">
+                <button id="search-button" type="submit" class="btn btn-sm btn-outline-secondary" style="color: black!important;">Применить</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ul>
+    </div>
+
+
+  </div>
+</nav>
+  <br><br>
+  <script>
+    const slider1 = document.getElementById("slider-1");
+    const slider2 = document.getElementById("slider-2");
+
+    slider1.addEventListener("input", () => {
+      if(parseFloat(slider1.value) > parseFloat(slider2.value)){
+        slider2.value = slider1.value;
+      }
+    });
+
+    slider2.addEventListener("input", () => {
+      if(parseFloat(slider2.value) < parseFloat(slider1.value)){
+        slider1.value = slider2.value;
+      }
+    });
+  </script>
+</div>

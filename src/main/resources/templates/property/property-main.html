@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{blocks/head :: head}"></head>
+<body>
+
+
+
+
+
+
+
+
+
+<main style="margin-left: 4.5rem; ">
+
+
+  <header th:insert="~{blocks/header :: header}"></header>
+
+
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Лучшая недвижимость Минска</h1>
+        <p class="lead text-body-secondary">Мы собрали топ лучших квартир и домов Минска, чтобы вы могли найти себе новое пристанище.</p>
+        <p>
+          <a href="/cafes/add" class="btn btn-primary my-2">Добавить новое объявление</a>
+          <a href="/aboutus" class="btn btn-secondary my-2">Посмотреть мои объявления</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div th:insert="~{property/filter-bar-property :: filter-bar}"></div>
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col" th:each="el:${properties}">
+          <div class="card shadow-sm">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="225" th:src="${el.getLinkPhoto()}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></img>
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <h3 class="mb-0" th:text="${el.getTitle()}"></h3>
+                <strong class="d-inline-block mb-2 text-primary-emphasis" style="float: right; margin-bottom: 0!important;" th:text="${el.getPrice()}"></strong>
+              </div>
+              <p class="card-text" th:text="${el.getDescription()}"></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a  th:href="'/properties/' + ${el.getId()}"  class="btn btn-sm btn-outline-secondary">View</a>
+                  <a  class="btn btn-sm btn-outline-secondary" th:href="'/properties/' + ${el.getId()} + '/edit'">Edit</a>
+                </div>
+                <small class="text-body-secondary" th:text="${el.getAddress()}"></small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div th:insert="~{blocks/footer :: footer}"></div>
+
+<script>
+  document.querySelector('#search-button').addEventListener('click', function() {
+    // var searchInput = document.querySelector('#search-input').value;
+    //history.pushState(null, null, '?name=' + searchInput);
+    var f = document.querySelector('#slider-1').value;
+    var s = document.querySelector('#slider-2').value;
+    history.pushState(null, null, '?f=' + f + '&s=' + s);
+    location.reload();
+  });
+</script>
+
+</body>
+</html>
