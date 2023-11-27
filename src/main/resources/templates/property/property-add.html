@@ -1,0 +1,48 @@
+<div th:fragment = "add">
+<div id="popupAdd" class="container" style="display: none;">
+  <h2>Добавить новое объявление</h2>
+  <form id="editForm" method="post" th:action="@{'/properties/add' }" onsubmit="closePopupAdd()"  >
+    <input type="text" name="title" id="titleInput" placeholder="Название"  class="form-control" /><br>
+    <input type="text" name="address" id="addressInput" placeholder="Адрес"  class="form-control" /><br>
+    <input type="number" name="price" id="priceInput" placeholder="Цена" class="form-control" /><br>
+    <input type="text" name="type" id="typeInput" placeholder="Тип" class="form-control"/><br>
+    <input type="url" name="linkPhoto" id="linkPhotoInput" placeholder="Ссылка на фото" class="form-control" /><br>
+    <textarea type="text" name="description" id="descriptionInput" placeholder="Описание" class="form-control"></textarea><br>
+
+    <!-- Добавьте остальные поля ввода для редактирования объявления -->
+    <button type="submit" class="btn btn-success">Сохранить</button>
+  </form>
+</div>
+
+
+<div id="backgroundOverlayAdd"></div>
+
+<style> /* Стили для фона и попапа */
+#backgroundOverlayAdd { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Затемнение фона */ z-index: 9999; display: none; }
+#popupAdd { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; z-index: 10000; display: none; }
+</style>
+
+<script>
+  function openPopupAdd() {
+    var backgroundOverlay = document.getElementById("backgroundOverlayAdd");
+    var popup = document.getElementById("popupAdd");
+    backgroundOverlay.style.display = "block";
+    popup.style.display = "block";
+  }
+  function closePopupAdd() {
+    var backgroundOverlay = document.getElementById("backgroundOverlayAdd");
+    var popup = document.getElementById("popupAdd");
+    backgroundOverlay.style.display = "none";
+    popup.style.display = "none"; }
+
+  // Обработчик события "click" на фоновый оверлей
+  var backgroundOverlay = document.getElementById("backgroundOverlayAdd");
+  backgroundOverlay.addEventListener("click",
+          function(event) {
+            if (event.target === backgroundOverlay) { closePopupAdd(); }
+          }
+  );
+</script>
+</div>

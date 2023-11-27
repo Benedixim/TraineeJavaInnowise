@@ -24,8 +24,8 @@
         <h1 class="fw-light">Лучшая недвижимость Минска</h1>
         <p class="lead text-body-secondary">Мы собрали топ лучших квартир и домов Минска, чтобы вы могли найти себе новое пристанище.</p>
         <p>
-          <a href="/cafes/add" class="btn btn-primary my-2">Добавить новое объявление</a>
-          <a href="/aboutus" class="btn btn-secondary my-2">Посмотреть мои объявления</a>
+          <a onclick="openPopupAdd()" class="btn btn-primary my-2">Добавить новое объявление</a>
+          <a href="/panel" class="btn btn-secondary my-2">Посмотреть мои объявления</a>
         </p>
       </div>
     </div>
@@ -49,7 +49,6 @@
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <a  th:href="'/properties/' + ${el.getId()}"  class="btn btn-sm btn-outline-secondary">View</a>
-                  <a  class="btn btn-sm btn-outline-secondary" th:href="'/properties/' + ${el.getId()} + '/edit'">Edit</a>
                 </div>
                 <small class="text-body-secondary" th:text="${el.getAddress()}"></small>
               </div>
@@ -60,7 +59,10 @@
     </div>
   </div>
 
+  <div th:insert="~{property/property-add :: add}"></div>
+
 </main>
+
 
 <div th:insert="~{blocks/footer :: footer}"></div>
 
@@ -74,6 +76,8 @@
     location.reload();
   });
 </script>
+
+
 
 </body>
 </html>

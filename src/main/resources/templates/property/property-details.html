@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{blocks/head :: head}"></head>
+
+<body>
+
+<header th:insert="~{blocks/header :: header}"></header>
+
+
+<div class="container col-xxl-8 px-4 py-5" th:each="property : ${property}" style="padding-bottom: 0!important;">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5" style="padding-bottom: 0!important;">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img th:src="${property.getLinkPhoto()}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+    </div>
+    <div class="col-lg-6">
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3" style="font-weight: 800;" th:text="${property.getTitle() + ' - ' + property.getAddress()}"></h1>
+        <strong class="d-inline-block mb-2 text-primary-emphasis btn btn-outline-warning" style="font-size: large; min-width: 150px; float: right; display: flex!important; flex-direction: column;!important; padding: 10px!important;" >
+          <strong class="d-inline-block mb-2 text-primary-emphasis" style="font-size: x-large; font-weight: bold; float: right; margin-bottom: 0!important;" th:text="${property.getPrice()}"></strong><!--⚆🔾-->
+
+          <small class="d-inline-block mb-2 text-primary-emphasis" style="font-size: x-small; color: black; font-weight: bold; float: right; margin-bottom: 0!important;" th:text="${property.getType()}"></small>
+        </strong>
+        <!--                <small class="d-inline-block mb-2 text-primary-emphasis" style="font-size: small; font-weight: bold; float: right;" th:text="${el.views} + ' (◕‿◕)'"></small>-->
+      </div>
+<!--      <p class="lead" th:text="${property.getAddress()}"></p>-->
+      <p class="lead" th:text="${'продавец: ' + property.getUser().getFirstName() + ' ' + property.getUser().getLastName() + ' дата: ' + property.getDateString()}"></p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button class="btn btn-primary btn-lg px-4 me-md-2" style="margin-right: 1.5rem!important;" onclick="openPopup()">Редактировать</button>
+        <form th:action="'/properties/' + ${property.getId()} + '/remove'" method="post">
+          <button type="submit" class="btn btn-outline-secondary btn-lg px-4">Удалить</button>
+        </form>
+      </div>
+    </div>
+    <p th:text="${property.getDescription()}" style="font-size: 40px"></p>
+  </div>
+
+
+  <!-- Попап -->
+  <div id="popup" class="container" style="display: none;">
+    <h2>Редактирование объявления</h2>
+    <form id="editForm" method="post" th:action="@{'/properties/' + ${property.getId()}}" onsubmit="closePopup()"  >
+      <input type="text" name="title" id="titleInput" placeholder="Название" th:value="${property.getTitle()}" class="form-control" /><br>
+      <input type="text" name="address" id="addressInput" placeholder="Адрес" th:value="${property.getAddress()}" class="form-control" /><br>
+      <input type="number" name="price" id="priceInput" placeholder="Цена" th:value="${property.getPrice()}" class="form-control" /><br>
+      <input type="text" name="type" id="typeInput" placeholder="Тип" th:value="${property.getType()}" class="form-control"/><br>
+      <input type="url" name="linkPhoto" id="linkPhotoInput" placeholder="Ссылка на фото" th:value="${property.getLinkPhoto()}" class="form-control" /><br>
+      <textarea type="text" name="description" id="descriptionInput" placeholder="Описание" th:text="${property.getDescription()}" class="form-control"></textarea><br>
+
+      <!-- Добавьте остальные поля ввода для редактирования объявления -->
+      <button type="submit" class="btn btn-success">Сохранить</button>
+    </form>
+  </div>
+
+</div>
+
+<!--<div id="backgroundOverlayAdd"></div>-->
+
+<style> /* Стили для фона и попапа */ body { position: relative; } #backgroundOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); /* Затемнение фона */ z-index: 9999; display: none; } #popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; z-index: 10000; display: none; } </style>
+
+
+<div th:insert="~{property/property-add :: add}"></div>
+
+
+<script>
+  function openPopup() {
+    var backgroundOverlay = document.getElementById("backgroundOverlayAdd");
+    var popup = document.getElementById("popup");
+    backgroundOverlay.style.display = "block";
+    popup.style.display = "block";
+  }
+  function closePopup() {
+    var backgroundOverlay = document.getElementById("backgroundOverlayAdd");
+    var popup = document.getElementById("popup");
+    backgroundOverlay.style.display = "none";
+    popup.style.display = "none"; }
+
+  // Обработчик события "click" на фоновый оверлей
+  var backgroundOverlay = document.getElementById("backgroundOverlayAdd");
+  backgroundOverlay.addEventListener("click",
+          function(event) {
+            if (event.target === backgroundOverlay) { closePopup(); }
+          }
+  );
+</script>
+
+
+<div th:insert="~{blocks/footer :: footer}"></div>
+
+
+</body>
+</html>
