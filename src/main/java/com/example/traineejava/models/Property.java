@@ -18,15 +18,16 @@ public class Property {
     @NotNull(message = "Название не может быть пустым")
     private String title;
 
-    @Size(min = 50, max = 1000, message = "Длина должна быть от 50 до 1000")
+    @Size(min = 10, max = 1000, message = "Длина должна быть от 10 до 1000")
     @NotNull(message = "Описание не может быть пустым")
     @Column(columnDefinition = "varchar(1000)")
     private String description;
     @Positive(message = "Значение должно быть больше или равно 0")
     private long price;
 
-    @Size(min = 15, max = 255, message = "Длина должна быть от 15 до 255")
+    @Size(min = 15, max = 1000, message = "Длина должна быть от 15 до 1000")
     @NotNull(message = "Картинка не может быть пустой")
+    @Column(columnDefinition = "varchar(1000)")
     private String linkPhoto;
 
     @Size(min = 5, max = 255, message = "Длина должна быть от 5 до 255")
