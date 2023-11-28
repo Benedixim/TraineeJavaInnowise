@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class MainController {
 
@@ -30,6 +32,25 @@ public class MainController {
     @GetMapping("/")
     public String main() {
         return "redirect:/properties";
+    }
+
+    @GetMapping("/panel")
+    public String panel( Model model) {
+        String email = userService.getCurrentUser();
+
+        User user = userService.getUserByEmail(email);
+        if (user == null) {
+            //throw new UsernameNotFoundException("No user found with email");
+            return "redirect:/login";
+        }
+
+        if (user.getRole().equals("ADMIN")) {
+            List<User> users = userService.getAllUsers();
+            model.addAttribute("users", users);
+        }
+
+        model.addAttribute("user", user);
+        return "main/panel";
     }
 
     @GetMapping("/error-page")

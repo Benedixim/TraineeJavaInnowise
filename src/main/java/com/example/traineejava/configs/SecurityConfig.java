@@ -37,7 +37,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/admin").hasAnyRole( "ADMIN")
-                        .requestMatchers( "/properties/add").hasAnyRole( "USER")
+                        .requestMatchers( "/properties/add", "/panel", "/properties/{id}", "/properties/{id}/remove").hasAnyRole( "USER", "ADMIN")
 
                         .requestMatchers("/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/favicon.png", "/svg/**").permitAll()
