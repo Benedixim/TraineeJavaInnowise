@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 import java.util.Date;
 import java.util.List;
 
+
+
 @Controller
 @RequestMapping(value = "/properties")
 public class PropertyController {
@@ -29,10 +31,23 @@ public class PropertyController {
     }
 
     @GetMapping
-    public String propertyMain(Model model) {
+    public String propertyMain(@RequestParam(required = false) String name, @RequestParam(required = false) Long f, @RequestParam(required = false) Long s,
+                               @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size, @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortOrder, Model model) {
         // Получение списка свойств через REST-запрос
+
+        if (page == null) page = 0;
+        if (size == null) size = 5;
+        if (sortField == null) sortField = "title";
+        if (sortOrder == null) sortOrder = "ASC";
+        if (f == null) {
+            f = 0L; // Инициализация переменной f значением 0 типа long
+        }
+        if(s == null) {
+            s = 0L; // Инициализация переменной s значением 0 типа long
+        }
+
         List<Property> properties = webClient.get()
-                .uri("/get-properties")
+                .uri("/get-properties?name=" + name + "&f=" + f.longValue() + "&s=" + s.longValue() + "&page=" + page + "&size=" + size + "&sortField=" + sortField + "&sortOrder=" + sortOrder)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Property>>() {})
                 .block();

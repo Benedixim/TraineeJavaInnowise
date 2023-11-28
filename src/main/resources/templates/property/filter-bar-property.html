@@ -12,18 +12,43 @@
         <form style="appearance: none;">
           <div class="row">
             <div class="col-md-5">
-              <input name="name" class="form-control" id="search-input" type="search" placeholder="Поиск по названию" aria-label="Поиск по названию" _mstplaceholder="74607" _msthash="120" _mstaria-label="74607">
+              <input name="name" class="form-control" id="search-input" type="search" placeholder="Поиск по названию" aria-label="Поиск по названию">
             </div>
             <div class="col-md-2">
-              <input type="number"  name="f" step="0.1" min="0" max="9999999" id="slider-1" class="form-control">
+              <input type="number" name="f" step="1" min="0" max="99999999999" id="slider-1" class="form-control">
             </div>
             <div class="col-md-2">
-              <input type="number"  name="s" step="0.1" min="0" max="9999999" id="slider-2" class="form-control">
+              <input type="number" name="s" step="1" min="0" max="99999999999" id="slider-2" class="form-control">
             </div>
             <div class="col-md-3">
-              <div class="d-flex justify-content-end">
-                <button id="search-button" type="submit" class="btn btn-sm btn-outline-secondary" style="color: black!important;">Применить</button>
-              </div>
+              <select name="sortOrder" class="form-control"  >
+                <option value="ASC" selected>ASC</option>
+                <option value="DESC">DESC</option>
+              </select>
+            </div>
+            <div class="col-md-2" >
+              <select name="sortedField" class="form-control" style="margin-top: 10px;">
+                <option value="title" selected>title</option>
+                <option value="price">price</option>
+                <option value="date">date</option>
+              </select>
+            </div>
+            <div class="col-md-2" >
+              <select name="size" class="form-control" style="margin-top: 10px;">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+
+            <div class="pagination col-md-4" >
+              <button class="prev-page form-control" style="margin-top: 10px;">Назад</button>
+              <input type="text" name="page" class="current-page-input form-control" style="margin-top: 10px;">
+              <button class="next-page form-control" style="margin-top: 10px;">Вперед</button>
+            </div>
+
+            <div class="col-md-1">
+              <button  id="search-button" type="submit" class="btn btn-sm btn-outline-secondary" style="color: black!important; margin-top: 10px">Применить</button>
             </div>
           </div>
         </form>
@@ -32,6 +57,8 @@
 
 
   </div>
+
+
 </nav>
   <br><br>
   <script>
@@ -48,6 +75,83 @@
       if(parseFloat(slider2.value) < parseFloat(slider1.value)){
         slider1.value = slider2.value;
       }
+    });
+  </script>
+
+  <script>
+    const prevButton = document.querySelector('.prev-page');
+    const nextButton = document.querySelector('.next-page');
+    const currentPageInput = document.querySelector('.current-page-input');
+
+    let currentPage = getCurrentPageFromURL();
+
+    // Установка значения текущей страницы в поле ввода
+    currentPageInput.value = currentPage;
+
+    // Обработчик нажатия кнопки "Назад"
+    prevButton.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        updateCurrentPage();
+        updateURL();
+        // Дополнительные действия при переходе на предыдующую страницу
+      }
+    });
+
+    // Обработчик нажатия кнопки "Вперед"
+    nextButton.addEventListener('click', () => {
+      currentPage++;
+      updateCurrentPage();
+      updateURL();
+      // Дополнительные действия при переходе на следующую страницу
+    });
+
+    // Обработчик изменения значения в поле ввода
+    currentPageInput.addEventListener('input', () => {
+      const inputPage = parseInt(currentPageInput.value);
+      if (!isNaN(inputPage) && inputPage >= 0) {
+        currentPage = inputPage;
+        updateURL();
+        // Дополнительные действия при изменении значения текущей страницы
+      }
+    });
+
+    // Функция извлечения номера текущей страницы из поисковой строки URL
+    function getCurrentPageFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pageParam = urlParams.get('page');
+      return pageParam ? parseInt(pageParam) : 0;
+    }
+
+    // Функция обновления номера текущей страницы
+    function updateCurrentPage() {
+      currentPageInput.value = currentPage;
+    }
+
+    // Функция обновления поисковой строки URL
+    function updateURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('page', currentPage);
+      const newURL = window.location.pathname + '?' + urlParams.toString();
+      window.history.replaceState({}, '', newURL);
+    }
+
+    // Установка значений параметров из адресной строки в поля ввода при загрузке страницы
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const nameParam = urlParams.get('name');
+      const fParam = urlParams.get('f');
+      const sParam = urlParams.get('s');
+      const sortOrderParam = urlParams.get('sortOrder');
+      const sortedFieldParam = urlParams.get('sortedField');
+      const sizeParam = urlParams.get('size');
+
+      document.querySelector('#search-input').value = nameParam || '';
+      document.querySelector('#slider-1').value = fParam || '';
+      document.querySelector('#slider-2').value = sParam || '';
+      document.querySelector('select[name="sortOrder"]').value = sortOrderParam || 'ASC';
+      document.querySelector('select[name="sortedField"]').value = sortedFieldParam || 'title';
+      document.querySelector('select[name="size"]').value = sizeParam || '5';
     });
   </script>
 </div>

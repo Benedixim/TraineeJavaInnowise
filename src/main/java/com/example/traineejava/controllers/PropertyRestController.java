@@ -28,8 +28,10 @@ public class PropertyRestController {
     }
 
     @GetMapping("/get-properties")
-    public List<Property> getProperties() {
-        return propertyService.getAllProperties();
+    public List<Property> getProperties(@RequestParam(required = false) String name, @RequestParam(required = false) long f, @RequestParam(required = false) long s,
+                                        @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size,
+                                        @RequestParam(required = false) String sortField, @RequestParam(required = false) String sortOrder) {
+        return propertyService.getAllProperties(name, f, s, page, size, sortField, sortOrder);
     }
 
     @GetMapping("/get-property/{id}")
