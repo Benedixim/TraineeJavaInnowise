@@ -37,3 +37,6 @@ VALUES
     (18, '567 Pine St', '2024-06-01 03:00:00', 'Stunning penthouse', 'https://static.realt.by/user/fb/5/newb5534e5fb/3b91490b28.jpg', 300000, 'Penthouse 2', 'Residential', 9, 0),
     (19, '890 Maple St', '2024-07-01 04:00:00', 'Spacious villa', 'https://static.realt.by/user/fb/5/newb5534e5fb/f3ee08600a.jpg', 400000, 'Villa 1', 'Residential', 10, 0),
     (20, '234 Cedar St', '2024-08-01 05:00:00', 'Cozy cabin', 'https://static.realt.by/user/fb/5/newb5534e5fb/4c08435273.jpg', 60000, 'Cabin 2', 'Residential', 10, 0);
+
+INSERT INTO property_seq (next_val) VALUES (21);
+INSERT INTO user_seq (next_val) VALUES (11);
